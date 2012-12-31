@@ -96,7 +96,7 @@ class XMPPClient:
 			print "Atención: No se puede establecer conexión segura - Fallo de TLS!"
 
 		# Nos autenticamos
-		authres = self.conn.auth(user,password,"movistar SMS PLUS")
+		authres = self.conn.auth(user,password,"movistar WebJabber")
 		if not authres:
 			print "No se puede autenticar en %s. Verificar usuario/password"%server
 			return

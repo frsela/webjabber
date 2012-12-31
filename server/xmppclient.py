@@ -6,22 +6,11 @@
 import xmpp
 import datetime
 import string
-import MySQLdb
 
 # Almacén de mensajes recibidos
 RcvMsg = dict()
 # Almacén de Rosters
 Rosters = dict()
-
-def AlmacenaMensaje(F,T,M):
-	# Conectamos a la BBDD para almacenar el mensaje en el histórico
-	db = MySQLdb.connect("localhost","smsplus","smsplus","SMSPlus")
-	c = db.cursor()
-	# Miramos a ver si no lo cargamos ya ... Permitimos un margen de 2 segundos entre mensajes iguales
-	c.execute("SELECT COUNT(1) FROM HistoricoMensajes WHERE `From`='"+F+"' AND `To`='"+T+"' AND Mensaje='"+M+"' AND TIMESTAMPDIFF(SECOND,`Timestamp`,NOW()) <= 2");
-	if c.fetchone()[0] == 0:
-		c.execute("INSERT INTO HistoricoMensajes (`From`,`To`,`Mensaje`) VALUES ('"+F+"','"+T+"','"+M+"')")
-	db.close()
 
 # Función de callback para recepción de mensajes XMPP
 def MessageCallBack(conn,mess):
@@ -45,8 +34,6 @@ def MessageCallBack(conn,mess):
 
 	# Almacenamos mensaje en memoria hasta que nos lo soliciten
 	RcvMsg[TO].append(Ahora.date().isoformat()+"#"+Ahora.time().isoformat()+"#"+mess.getFrom().getStripped()+"#"+mess.getBody())
-	# Almacenamos también en la BBDD para el histórico
-	AlmacenaMensaje(mess.getFrom().getStripped(), TO, mess.getBody())
 
 	print "--------------------------------------"
 
@@ -149,7 +136,6 @@ class XMPPClient:
 	def EnviarMensaje(self,to,mensaje):
 		if(self.conectado == 1):
 			self.conn.send(xmpp.Message(to,mensaje))
-			AlmacenaMensaje(self.jid.getStripped(),to,mensaje)
 
 	def RecibirMensajes(self):
 		if RcvMsg.keys().count(self.jid) == 0:

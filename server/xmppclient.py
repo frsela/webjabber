@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # HTTP to XMPP Connector - XMPP Client
-# Fernando Rodríguez Sela, 2008
-# SVN HeadURL: $HeadURL: file:///opt1/svn/widgets/trunk/SMSPlus/HTTP2XMPP_Connector/xmppclient.py $
-# SVN Id: $Id: xmppclient.py 35 2008-04-04 07:47:41Z frsela $
+# Fernando Rodríguez Sela, 2008-2012
 
 import xmpp
 import datetime
@@ -91,12 +89,16 @@ class XMPPClient:
 		print "Cliente destruido"
 
 	# Conectar a servidor JABBER
-	def Conectar(self,jid_uri):
+	def Conectar(self, jid_uri, password, port = 443):
 		self.jid = xmpp.JID(jid_uri)
-		user, server, password = self.jid.getNode(),self.jid.getDomain(),"5h65tQ2r" #self.jid.getNode()
+		user, server = self.jid.getNode(), self.jid.getDomain()
+
+		# Debug level (Change the comment to enable/disable debug traces)
+		##debug = []
+		debug = ['nodebuilder', 'dispatcher', 'gen_auth', 'SASL_auth', 'bind', 'socket', 'CONNECTproxy', 'TLS', 'roster', 'browser', 'ibb']
 
 		# Creamos cliente XMPP
-		self.conn = xmpp.Client(server)#,debug=[])
+		self.conn = xmpp.Client(server, port, debug)
 
 		# Nos conectamos al servidor JABBER
 		conres = self.conn.connect()

@@ -1,7 +1,7 @@
 WebApp Jabber implementation
 ===
 
-## Author:
+## Author
 
 - Fernando Rodríguez Sela (frsela @ tid . es)
 
@@ -62,7 +62,6 @@ it as a POST in the payload so it will be encrypted)
 * Implement a WebApp client for Firefox OS
 * Implement the python interface with the notification server
 * Add a new parameter to manage the PUSH URL and use it on new messages
-* Change the payload messages (response) to JSON objects.
 * Improve security
 * Translate methods
 
@@ -113,6 +112,7 @@ Parameters:
 
 * jid = My JID
 
-### Dump debug information
+### Dump debug information URLs
 
 URI: http://server:port/dumprcv
+URI: http://server:port/debug

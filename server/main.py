@@ -63,8 +63,15 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 				JID = params['jid'][0]
 				if(HTTPJabberServer.JabberClients.keys().count(JID) == 1):
 					Msg = HTTPJabberServer.JabberClients[JID].RecibirMensajes()
+					message = "{ messages: ["
+					first = True
 					for m in Msg:
+						if first:
+							first = False
+						else:
+							message += ","
 						message += m
+					message += "]}"
 
 			elif parsed_path.path == "/receivestatus":
 				JID = params['jid'][0]
@@ -83,6 +90,7 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 					'/receive?jid',
 					'/receivestatus?jid',
 					'/dumprcv',
+					'/debug',
 				])
 
 			elif parsed_path.path == "/debug":

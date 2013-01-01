@@ -33,7 +33,15 @@ def MessageCallBack(conn,mess):
 		RcvMsg[TO] = []
 
 	# Almacenamos mensaje en memoria hasta que nos lo soliciten
-	RcvMsg[TO].append(Ahora.date().isoformat()+"#"+Ahora.time().isoformat()+"#"+mess.getFrom().getStripped()+"#"+mess.getBody())
+	msg = "{ timestamp: {"
+	msg += "date: '" + Ahora.date().isoformat() + "',"
+	msg += "time: '" + Ahora.time().isoformat() + "'},"
+	msg += "from: '" + mess.getFrom().getStripped() + "',"
+	if mess.getBody():
+		msg += "body: '" + mess.getBody() + "'}"
+	else:
+		msg += "body: ''}"
+	RcvMsg[TO].append(msg)
 
 	print "--------------------------------------"
 
@@ -145,12 +153,16 @@ class XMPPClient:
 		return Mensajes
 
 	def RecibirPresencia(self):
-		Estados = ""
+		Estados = "["
+		first = True
 		for r in Rosters[self.jid.getStripped()].keys():
-			Estados += r
-			Estados += "#"
-			Estados += Rosters[self.jid.getStripped()][r]['presence']
-			Estados += "|"
+			if first:
+				first = False
+			else:
+				Estados += ","
+			Estados += "{ roster: '" + r + "',"
+			Estados += "presence: '" + Rosters[self.jid.getStripped()][r]['presence'] + "'}"
+		Estados += "]"
 		return Estados
 
 	def ProcesarDatos(self):

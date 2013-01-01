@@ -60,16 +60,16 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 					HTTPJabberServer.JabberClients[From].EnviarMensaje(To,Msg)
 
 			elif parsed_path.path == "/receive":
-				From = params['from'][0]
-				if(HTTPJabberServer.JabberClients.keys().count(From) == 1):
-					Msg = HTTPJabberServer.JabberClients[From].RecibirMensajes()
+				JID = params['jid'][0]
+				if(HTTPJabberServer.JabberClients.keys().count(JID) == 1):
+					Msg = HTTPJabberServer.JabberClients[JID].RecibirMensajes()
 					for m in Msg:
 						message += m
 
 			elif parsed_path.path == "/receivestatus":
-				From = params['from'][0]
-				if(HTTPJabberServer.JabberClients.keys().count(From) == 1):
-					message = HTTPJabberServer.JabberClients[From].RecibirPresencia()
+				JID = params['jid'][0]
+				if(HTTPJabberServer.JabberClients.keys().count(JID) == 1):
+					message = HTTPJabberServer.JabberClients[JID].RecibirPresencia()
 
 			elif parsed_path.path == "/dumprcv":
 				message = xmppclient.RcvMsg
@@ -80,8 +80,8 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 					'/connect?jid&pwd',
 					'/disconnect?jid',
 					'/send?from&to&msg',
-					'/receive?from',
-					'/receivestatus?from',
+					'/receive?jid',
+					'/receivestatus?jid',
 					'/dumprcv',
 				])
 

@@ -64,6 +64,7 @@ it as a POST in the payload so it will be encrypted)
 * Add a new parameter to manage the PUSH URL and use it on new messages
 * Change the payload messages (response) to JSON objects.
 * Improve security
+* Translate methods
 
 ## API
 
@@ -98,19 +99,19 @@ Parameters:
 
 ### Receive all pending messages
 
-URI: http://server:port/receive?from
+URI: http://server:port/receive?jid
 
 Parameters:
 
-* from = My JID
+* jid = My JID
 
 ### Receive my contacs presence status
 
-URI: http://server:port/receivestatus?from
+URI: http://server:port/receivestatus?jid
 
 Parameters:
 
-* from = My JID
+* jid = My JID
 
 ### Dump debug information
 

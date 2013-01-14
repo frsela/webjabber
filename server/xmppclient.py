@@ -26,7 +26,11 @@ def MessageCallBack(conn,mess):
 	print "De.......: %s"%mess.getFrom().getStripped()
 	print "Fecha....: %s"%Ahora.date().isoformat()
 	print "Hora.....: %s"%Ahora.time().isoformat()
-	print "Mensaje..: %s"%mess.getBody()
+	if mess.getBody():
+		print "Mensaje..: %s"%mess.getBody().encode('utf-8')
+	else:
+		print "Mensaje..: Empty !"
+		return
 
 	# Si es la primera vez que recibimos mensajes para este JID, creamos entrada en diccionario
 	if RcvMsg.keys().count(TO) == 0:
@@ -51,8 +55,6 @@ def PresenceCallBack(conn,presence_node):
 	print "--------------------------------------"
 	print " PRESENCIA"
 	print "--------------------------------------"
-	print presence_node
-
 	# Sólo vamos a diferenciar online/offline, con lo que si entre los atributos de "presence" aparece 'type="unavailable"' es OFFLINE, resto, ONLINE
 	if presence_node.getType() == "unavailable":
 		Rosters[presence_node.getTo().getStripped()][presence_node.getFrom().getStripped()]['presence'] = "offline"

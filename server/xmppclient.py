@@ -6,11 +6,14 @@
 import xmpp
 import datetime
 import string
+from push_client import push_client
 
 # Almacén de mensajes recibidos
 RcvMsg = dict()
 # Almacén de Rosters
 Rosters = dict()
+# Listado de URLs de PUSH
+PushURIs = dict()
 
 # Función de callback para recepción de mensajes XMPP
 def MessageCallBack(conn,mess):
@@ -47,6 +50,8 @@ def MessageCallBack(conn,mess):
 		msg += "\"body\": \"\"}"
 	RcvMsg[TO].append(msg)
 
+	self.push.pushMessage("NewMessages", PushURIs[TO])
+
 	print "--------------------------------------"
 
 # Función de callback para recepción de presencia XMPP
@@ -65,6 +70,9 @@ def PresenceCallBack(conn,presence_node):
 	for roster in Rosters[presence_node.getTo().getStripped()].keys():
 		print roster
 		print "Estado %s"%Rosters[presence_node.getTo().getStripped()][roster]['presence']
+
+	self.push.pushMessage("NewPresence", PushURIs[TO])
+
 	print "--------------------------------------"
 
 # Función de callback para recepción de IQ (Info/Query) XMPP
@@ -80,6 +88,7 @@ def iqCallBack(conn,iq_node):
 class XMPPClient:
 	def __init__(self):
 		self.conectado = 0
+		self.push = push_client()
 
 	def __del__(self):
 		self.Desconectar()
@@ -170,3 +179,7 @@ class XMPPClient:
 	def ProcesarDatos(self):
 		if(self.conectado == 1):
 			self.conn.Process(1)
+
+	def setPushURI(self,roster,uri):
+		print "Setting PUSH URI for " + roster + " to " + uri
+		PushURIs[roster] = uri

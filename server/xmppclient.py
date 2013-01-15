@@ -14,6 +14,8 @@ RcvMsg = dict()
 Rosters = dict()
 # Listado de URLs de PUSH
 PushURIs = dict()
+# Push client
+PushClient = push_client()
 
 # Función de callback para recepción de mensajes XMPP
 def MessageCallBack(conn,mess):
@@ -50,7 +52,7 @@ def MessageCallBack(conn,mess):
 		msg += "\"body\": \"\"}"
 	RcvMsg[TO].append(msg)
 
-	self.push.pushMessage("NewMessages", PushURIs[TO])
+	PushClient.pushMessage("NewMessages", PushURIs[TO])
 
 	print "--------------------------------------"
 
@@ -71,7 +73,7 @@ def PresenceCallBack(conn,presence_node):
 		print roster
 		print "Estado %s"%Rosters[presence_node.getTo().getStripped()][roster]['presence']
 
-	self.push.pushMessage("NewPresence", PushURIs[TO])
+	PushClient.pushMessage("NewPresence", PushURIs[presence_node.getTo().getStripped()])
 
 	print "--------------------------------------"
 

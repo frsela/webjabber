@@ -39,7 +39,7 @@ WoIkXM8htv9DL9v8dLwA5khfU036jATbFCKtR65KQe7Pa+GO+T0N2McttB1EtyBh
 			for x in tuple(self.signer.sign(SHA256.new(data)))]
 		)
 
-	def pushMessage(self,data, uri):
+	def pushMessage(self,data,uri):
 		self.counter += 1
 		notif = '{' + \
 			'"messageType": "notification",' + \

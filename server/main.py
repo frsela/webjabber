@@ -116,13 +116,15 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 			self.send_response(200)
 			self.send_header('Access-Control-Allow-Origin','*')
 			self.end_headers()
+			if not message:
+				self.wfile.write('{ "status": "OK" }')
 			self.wfile.write(message)
 
 		except:
 			self.send_response(500)
 			self.send_header('Access-Control-Allow-Origin','*')
 			self.end_headers()
-			self.wfile.write("Error parsing request")
+			self.wfile.write('{ "status": "ERROR"} ')
 
 		return
 

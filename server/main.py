@@ -43,11 +43,13 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 			if parsed_path.path == "/connect":
 				JID = params['jid'][0]
 				passwd = params['pwd'][0]
+				pushURI = params['push'][0]
 				# Si no existe el objeto, lo creamos
 				if(HTTPJabberServer.JabberClients.keys().count(JID) == 0):
 					HTTPJabberServer.JabberClients[JID] = xmppclient.XMPPClient()
 				# Conectamos al servidor de JABBER
 				HTTPJabberServer.JabberClients[JID].Conectar(JID,passwd)
+				HTTPJabberServer.JabberClients[JID].setPushURI(JID,pushURI)
 
 			elif parsed_path.path == "/disconnect":
 				JID = params['jid'][0]
@@ -84,7 +86,7 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 
 			elif parsed_path.path == "/help":
 				message = '\n'.join([
-					'/connect?jid&pwd',
+					'/connect?jid&pwd&push',
 					'/disconnect?jid',
 					'/send?from&to&msg',
 					'/receive?jid',

@@ -39,7 +39,7 @@ WoIkXM8htv9DL9v8dLwA5khfU036jATbFCKtR65KQe7Pa+GO+T0N2McttB1EtyBh
 			for x in tuple(self.signer.sign(SHA256.new(data)))]
 		)
 
-	def pushMessage(self,data):
+	def pushMessage(self,data, uri):
 		self.counter += 1
 		notif = '{' + \
 			'"messageType": "notification",' + \
@@ -51,5 +51,5 @@ WoIkXM8htv9DL9v8dLwA5khfU036jATbFCKtR65KQe7Pa+GO+T0N2McttB1EtyBh
 			'"priority": 2' + \
 			'}'
 		print "Going to send push notification: " + notif
-		f = urllib.urlopen("https://192.168.1.117:8081/notify/31387b27716acb88d336cda8858c8a10a343cb70add5288d452e7813271bc04d", notif)
+		f = urllib.urlopen(uri, notif)
 		print f.read()

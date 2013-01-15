@@ -38,13 +38,13 @@ def MessageCallBack(conn,mess):
 
 	# Almacenamos mensaje en memoria hasta que nos lo soliciten
 	msg = "{ \"timestamp\": {"
-	msg += "date: '" + Ahora.date().isoformat() + "',"
-	msg += "time: '" + Ahora.time().isoformat() + "'},"
-	msg += "from: '" + mess.getFrom().getStripped() + "',"
+	msg += "\"date\": \"" + Ahora.date().isoformat() + "\","
+	msg += "\"time\": \"" + Ahora.time().isoformat() + "\"},"
+	msg += "\"from\": \"" + mess.getFrom().getStripped() + "\","
 	if mess.getBody():
-		msg += "body: '" + mess.getBody() + "'}"
+		msg += "\"body\": '" + mess.getBody() + "\"}"
 	else:
-		msg += "body: ''}"
+		msg += "\"body\": \"\"}"
 	RcvMsg[TO].append(msg)
 
 	print "--------------------------------------"

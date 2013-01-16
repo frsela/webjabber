@@ -27,8 +27,12 @@ class HTTPJabberServer(BaseHTTPServer.BaseHTTPRequestHandler):
 	# Procesamos tareas pendientes de todos los clientes XMPP iniciados
 	@staticmethod
 	def processJabber():
-		for cliente in HTTPJabberServer.JabberClients.values():
-			cliente.ProcesarDatos()
+		try:
+			for cliente in HTTPJabberServer.JabberClients.values():
+				cliente.ProcesarDatos()
+		except:
+			print "Error processing XMPP. Ignoring"
+
 		threading.Timer(1,HTTPJabberServer.processJabber).start()
 
 	# Procesamos peticiones HTTP

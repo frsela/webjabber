@@ -47,7 +47,7 @@ def MessageCallBack(conn,mess):
 	msg += "\"time\": \"" + Ahora.time().isoformat() + "\"},"
 	msg += "\"from\": \"" + mess.getFrom().getStripped() + "\","
 	if mess.getBody():
-		msg += "\"body\": '" + mess.getBody() + "\"}"
+		msg += "\"body\": \"" + mess.getBody() + "\"}"
 	else:
 		msg += "\"body\": \"\"}"
 	RcvMsg[TO].append(msg)

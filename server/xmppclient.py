@@ -73,7 +73,6 @@ def PresenceCallBack(conn,presence_node):
 		print roster
 		print "Estado %s"%Rosters[presence_node.getTo().getStripped()][roster]['presence']
 
-	#PushClient.pushMessage("NewPresence", PushURIs[presence_node.getTo().getStripped()])
 	PushClient.pushMessage(presence_node.getFrom().getStripped() + ":" + Rosters[presence_node.getTo().getStripped()][presence_node.getFrom().getStripped()]['presence'], PushURIs[presence_node.getTo().getStripped()])
 
 	print "--------------------------------------"

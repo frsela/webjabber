@@ -59,9 +59,9 @@ def MessageCallBack(conn,mess):
 # Función de callback para recepción de presencia XMPP
 def PresenceCallBack(conn,presence_node):
 	""" Se llama cuando cambia la presencia """
-	print "--------------------------------------"
-	print " PRESENCIA"
-	print "--------------------------------------"
+	#print "--------------------------------------"
+	#print " PRESENCIA"
+	#print "--------------------------------------"
 	# Sólo vamos a diferenciar online/offline, con lo que si entre los atributos de "presence" aparece 'type="unavailable"' es OFFLINE, resto, ONLINE
 	if presence_node.getType() == "unavailable":
 		Rosters[presence_node.getTo().getStripped()][presence_node.getFrom().getStripped()]['presence'] = "offline"
@@ -69,22 +69,22 @@ def PresenceCallBack(conn,presence_node):
 		Rosters[presence_node.getTo().getStripped()][presence_node.getFrom().getStripped()]['presence'] = "online"
 
 	# A modo depuración, volcamos el estado del roster
-	for roster in Rosters[presence_node.getTo().getStripped()].keys():
-		print roster
-		print "Estado %s"%Rosters[presence_node.getTo().getStripped()][roster]['presence']
+	#for roster in Rosters[presence_node.getTo().getStripped()].keys():
+		#print roster
+		#print "Estado %s"%Rosters[presence_node.getTo().getStripped()][roster]['presence']
 
-	PushClient.pushMessage(presence_node.getFrom().getStripped() + ":" + Rosters[presence_node.getTo().getStripped()][presence_node.getFrom().getStripped()]['presence'], PushURIs[presence_node.getTo().getStripped()])
+#	PushClient.pushMessage(presence_node.getFrom().getStripped() + ":" + Rosters[presence_node.getTo().getStripped()][presence_node.getFrom().getStripped()]['presence'], PushURIs[presence_node.getTo().getStripped()])
 
-	print "--------------------------------------"
+	#print "--------------------------------------"
 
 # Función de callback para recepción de IQ (Info/Query) XMPP
 def iqCallBack(conn,iq_node):
 	""" Se llama cuando hay que procesar consultas "get" de un namespace propio """
-	print "--------------------------------------"
-	print " IQ"
-	print "--------------------------------------"
-	print iq_node
-	print "--------------------------------------"
+	#print "--------------------------------------"
+	#print " IQ"
+	#print "--------------------------------------"
+	#print iq_node
+	#print "--------------------------------------"
 
 # Clase de gestión de cliente XMPP
 class XMPPClient:
@@ -102,8 +102,8 @@ class XMPPClient:
 		user, server = self.jid.getNode(), self.jid.getDomain()
 
 		# Debug level (Change the comment to enable/disable debug traces)
-		##debug = []
-		debug = ['nodebuilder', 'dispatcher', 'gen_auth', 'SASL_auth', 'bind', 'socket', 'CONNECTproxy', 'TLS', 'roster', 'browser', 'ibb']
+		debug = []
+		#debug = ['nodebuilder', 'dispatcher', 'gen_auth', 'SASL_auth', 'bind', 'socket', 'CONNECTproxy', 'TLS', 'roster', 'browser', 'ibb']
 
 		# Creamos cliente XMPP
 		self.conn = xmpp.Client(server, port, debug)

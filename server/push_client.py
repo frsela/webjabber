@@ -8,6 +8,7 @@ from Crypto.Hash import SHA256
 from Crypto.Signature import PKCS1_v1_5
 from time import time
 import urllib
+import urllib2
 
 class push_client:
 	def __init__(self):
@@ -41,15 +42,20 @@ WoIkXM8htv9DL9v8dLwA5khfU036jATbFCKtR65KQe7Pa+GO+T0N2McttB1EtyBh
 
 	def pushMessage(self,data,uri):
 		self.counter += 1
-		notif = '{' + \
-			'"messageType": "notification",' + \
-			'"id": ' + str(self.counter) + ',' + \
-			'"message": "' + data + '",' + \
-			'"signature": "' + self.signMessage(data) + '",' + \
-			'"ttl": 1,' + \
-			'"timestamp": "' + str(time()) + '",' + \
-			'"priority": 2' + \
-			'}'
-		print "Going to send push notification: " + notif
-		f = urllib.urlopen(uri, notif)
-		print f.read()
+#		notif = '{' + \
+#			'"messageType": "notification",' + \
+#			'"id": ' + str(self.counter) + ',' + \
+#			'"message": "' + data + '",' + \
+#			'"signature": "' + self.signMessage(data) + '",' + \
+#			'"ttl": 1,' + \
+#			'"timestamp": "' + str(time()) + '",' + \
+#			'"priority": 2' + \
+#			'}'
+		notif = 'version='+str(int(time.mktime(time.gmtime())) + self.counter)
+		print "Going to send push notification: " + notif + " to URL: " + uri
+#		f = urllib.urlopen(uri, notif)
+#		print f.read()
+		opener = urllib2.build_opener(urllib2.HTTPHandler)
+		request = urllib2.Request(uri, data=notif)
+		request.get_method = lambda: 'PUT'
+		url = opener.open(request)

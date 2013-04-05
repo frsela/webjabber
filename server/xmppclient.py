@@ -98,6 +98,12 @@ class XMPPClient:
 
 	# Conectar a servidor JABBER
 	def Conectar(self, jid_uri, password, port = 443):
+		if(self.conectado == 1):
+			print "Usuario " + jid_uri + " ya estaba conectado"
+			return
+
+		print "Conectando a " + jid_uri
+
 		self.jid = xmpp.JID(jid_uri)
 		user, server = self.jid.getNode(), self.jid.getDomain()
 
